@@ -1,0 +1,62 @@
+<div class="row">
+    <div class="col-md-5">
+        <div>
+            <form [formGroup] = "Register" >
+        
+                <div class="form-group">
+                    <label>NAME</label>
+                    <input class="form-control form-control-lg" placeholder="Full Name" formControlName="employeeName">
+                </div>
+                <div class="form-group">
+                    <label>Age</label>
+                    <input class="form-control form-control-lg" placeholder="Age" formControlName="employeeAge">
+                </div>
+                <div class="form-group">
+                    <label>Department</label>
+                    <input class="form-control form-control-lg" placeholder="Department" formControlName="employeeDeparment">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <input class="form-control form-control-lg" placeholder="Role" formControlName="employeeRole">
+                </div>
+                
+        
+                <div class="form-group">
+                    <button class="btn btn-info btn-lg btn-block" type="button" (click)="onSUbmit()">SUBMIT</button>
+                </div>
+               
+        
+        
+            </form>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th class="text-center">Department</th>
+                    <th class="text-center">Role</th>
+                    <th class="text-center">Action</th>
+        
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let pd of list">
+                    <td>{{pd.employeeName}}</td>
+                    <td>{{pd.employeeAge}}</td>
+                    <td class="text-center">{{pd.employeeDeparment}}</td>
+                    <td class="text-center">{{pd.employeeRole}}</td>
+                    <td class="text-center">
+                        <i class="far fa-trash-alt fa-lg text-danger" (click)="onDelete(pd.employeeID)"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+  </div>
+
+
+
