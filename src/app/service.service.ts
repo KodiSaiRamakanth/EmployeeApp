@@ -15,6 +15,9 @@ export class ServiceService {
 
      
   }
+  putEmployeeDetail(id,value) {
+    return this.http.put(`${this.baseURL}/${id}`, value);
+  }
 
   onReceive(){
     return this.http.get(this.baseURL);

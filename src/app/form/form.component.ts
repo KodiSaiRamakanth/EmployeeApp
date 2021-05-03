@@ -14,13 +14,13 @@ export class FormComponent implements OnInit {
   list:any =[];
   constructor(private fb:FormBuilder,private service:ServiceService,private toastr: ToastrService) {
     this.Register= this.fb.group(
-      { 
+      { employeeID:[0],
         employeeName:['',Validators.required],
         employeeDeparment:['',Validators.required],
         employeeAge:['',Validators.required],
         employeeRole:['',Validators.required]
-      }
-    )
+        
+       } )
    }
 
   ngOnInit(): void {
@@ -31,6 +31,19 @@ export class FormComponent implements OnInit {
 }
 onSUbmit(){
 
+  if(this.Register.get('employeeID').value == 0 ){
+
+    console.log(this.Register.get('employeeID').value);
+    this.onSave();
+  }else{
+    console.log(this.Register.get('employeeID').value);
+    this.onUpdate(this.Register.get('employeeID').value);
+
+  }
+
+  
+}
+onSave(){
   this.service.postEmployeeDetail(this.Register.value).subscribe(res => {
     this.Register.reset();
     this.service.onReceive();
@@ -38,7 +51,30 @@ onSUbmit(){
     this.toastr.success('Submitted successfully', 'Employee Detail Register')
 
   });
+
 }
+onUpdate(id){
+  console.log("Yes");
+
+  this.service.putEmployeeDetail(id,this.Register.value).subscribe( res => {
+    this.Register.reset();
+    this.refreshList();
+    this.toastr.info('Updated successfully', 'Payment Detail Register')
+  })
+
+}
+onReset(){
+  this.Register.reset();
+  this.Register.patchValue({
+    employeeID:0,});
+
+
+
+}
+
+
+
+
 refreshList(){
 this.service.onReceive().subscribe(res => {
   this.list = res;
@@ -48,7 +84,8 @@ this.service.onReceive().subscribe(res => {
 onDelete(id){
 
   if(confirm('Are you sure to delete this record'))
- {
+ 
+  {
   this.service.deletePaymentDetail(id).subscribe(res=>{
   console.log(res);
   this.refreshList();
@@ -57,6 +94,18 @@ onDelete(id){
 });
 
  }
+}
+
+populateForm(pdlist){
+console.log(pdlist);
+
+this.Register.patchValue({
+  employeeID:pdlist.employeeID,
+  employeeName:pdlist.employeeName,
+  employeeDeparment:pdlist.employeeDeparment,
+  employeeRole:pdlist.employeeRole,
+  employeeAge:pdlist.employeeAge
+});
 }
 
 }
