@@ -5,24 +5,32 @@
         
                 <div class="form-group">
                     <label>NAME</label>
-                    <input class="form-control form-control-lg" placeholder="Full Name" formControlName="employeeName">
+                    <input class="form-control form-control-lg" placeholder="Full Name" formControlName="employeeName"
+                    required [class.invalid]="Register.get('employeeName').invalid && Register.get('employeeName').touched"
+                    >
                 </div>
                 <div class="form-group">
                     <label>Age</label>
-                    <input class="form-control form-control-lg" placeholder="Age" formControlName="employeeAge">
+                    <input  class="form-control form-control-lg" placeholder="Age" formControlName="employeeAge"
+                    required [class.invalid]="Register.get('employeeAge').invalid && Register.get('employeeAge').touched"
+                    >
                 </div>
                 <div class="form-group">
                     <label>Department</label>
-                    <input class="form-control form-control-lg" placeholder="Department" formControlName="employeeDeparment">
+                    <input class="form-control form-control-lg" placeholder="Department" formControlName="employeeDeparment"
+                    required [class.invalid]="Register.get('employeeDeparment').invalid && Register.get('employeeDeparment').touched"
+                    >
                 </div>
                 <div class="form-group">
                     <label>Role</label>
-                    <input class="form-control form-control-lg" placeholder="Role" formControlName="employeeRole">
+                    <input class="form-control form-control-lg" placeholder="Role" formControlName="employeeRole"
+                    required [class.invalid]="Register.get('employeeRole').invalid && Register.get('employeeRole').touched"
+                    >
                 </div>
                 
         
                 <div class="form-group">
-                    <button class="btn btn-info btn-lg btn-block" type="button" (click)="onSUbmit()">SUBMIT</button>
+                    <button class="btn btn-info btn-lg btn-block" type="button" (click)="onSUbmit()" [disabled]="Register.invalid">SUBMIT</button>
                 </div>
                
         

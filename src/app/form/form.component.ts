@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ToastrService } from 'ngx-toastr';
 import { ServiceService } from '../service.service';
 
 @Component({
@@ -11,13 +12,13 @@ export class FormComponent implements OnInit {
   
   Register:FormGroup;
   list:any =[];
-  constructor(private fb:FormBuilder,private service:ServiceService) {
+  constructor(private fb:FormBuilder,private service:ServiceService,private toastr: ToastrService) {
     this.Register= this.fb.group(
       { 
-        employeeName:[''],
-        employeeDeparment:[''],
-        employeeAge:[''],
-        employeeRole:['']
+        employeeName:['',Validators.required],
+        employeeDeparment:['',Validators.required],
+        employeeAge:['',Validators.required],
+        employeeRole:['',Validators.required]
       }
     )
    }
@@ -34,7 +35,7 @@ onSUbmit(){
     this.Register.reset();
     this.service.onReceive();
     this.refreshList();
-   
+    this.toastr.success('Submitted successfully', 'Employee Detail Register')
 
   });
 }
@@ -45,12 +46,17 @@ this.service.onReceive().subscribe(res => {
 }
 
 onDelete(id){
-this.service.deletePaymentDetail(id).subscribe(res=>{
+
+  if(confirm('Are you sure to delete this record'))
+ {
+  this.service.deletePaymentDetail(id).subscribe(res=>{
   console.log(res);
   this.refreshList();
+  this.toastr.error('Deleted successfully', 'Employee Detail Register')
+
 });
 
-
+ }
 }
 
 }
