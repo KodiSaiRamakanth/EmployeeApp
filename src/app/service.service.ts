@@ -8,12 +8,10 @@ export class ServiceService {
 
   constructor(private http:HttpClient) {}
 
-  readonly baseURL = 'https://ramakanth.azurewebsites.net/api/employeedetails'
+  readonly baseURL = 'https://prize.azurewebsites.net/api/EmployeeDetails'
 
   postEmployeeDetail(value) {
     return this.http.post(this.baseURL,value);
-
-     
   }
   putEmployeeDetail(id,value) {
     return this.http.put(`${this.baseURL}/${id}`, value);

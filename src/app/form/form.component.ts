@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { ServiceService } from '../service.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-form',
@@ -14,7 +15,13 @@ export class FormComponent implements OnInit {
   list:any =[];
   constructor(private fb:FormBuilder,private service:ServiceService,private toastr: ToastrService) {
     this.Register= this.fb.group(
-      { employeeID:[0],
+      { 
+        
+        // EmployeeName:[''],
+        // Occupation:[''],
+        // ImageFile:['']
+
+        employeeID:[4],
         employeeName:['',Validators.required],
         employeeDeparment:['',Validators.required],
         employeeAge:['',Validators.required],
@@ -28,24 +35,41 @@ export class FormComponent implements OnInit {
     this.service.onReceive().subscribe(res=>{
       this.list = res;
   });
+
+console.log(this.list);
+  this.Register.patchValue({
+    employeeName: this.list[0].employeeName,
+    employeeDeparment: this.list[0].employeeDeparment,
+    employeeRole: this.list[0].employeeRole,
+    employeeAge: this.list[0].employeeAge
+  });
+
 }
+
+
+
 onSUbmit(){
+  console.log(this.list);
 
-  if(this.Register.get('employeeID').value == 0 ){
+  // Swal.fire('This is a simple and sweet alert');
+  console.log(this.Register.value);
+  this.onUpdate(4);
 
-    console.log(this.Register.get('employeeID').value);
-    this.onSave();
-  }else{
-    console.log(this.Register.get('employeeID').value);
-    this.onUpdate(this.Register.get('employeeID').value);
 
-  }
+  // if(this.Register.get('employeeID').value == 0 ){
+
+  //   console.log(this.Register.get('employeeID').value);
+  //   this.onSave();
+  // }else{
+  //   console.log(this.Register.get('employeeID').value);
+  //   this.onUpdate(4);
+
+  // }
 
   
 }
 onSave(){
   this.service.postEmployeeDetail(this.Register.value).subscribe(res => {
-    this.Register.reset();
     this.service.onReceive();
     this.refreshList();
     this.toastr.success('Submitted successfully', 'Employee Detail Register')
@@ -54,10 +78,9 @@ onSave(){
 
 }
 onUpdate(id){
-  console.log("Yes");
 
   this.service.putEmployeeDetail(id,this.Register.value).subscribe( res => {
-    this.Register.reset();
+    // this.Register.reset();
     this.refreshList();
     this.toastr.info('Updated successfully', 'Payment Detail Register')
   })
@@ -66,10 +89,7 @@ onUpdate(id){
 onReset(){
   this.Register.reset();
   this.Register.patchValue({
-    employeeID:0,});
-
-
-
+    employeeID:4,});
 }
 
 
